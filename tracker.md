@@ -2,54 +2,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Instruments Practice Tracker</title>
+    <title>Fitness Planner</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 20px;
-            background-color:white;
-        }
-         header {
-            background-color: #ffb6c1;
-            color: #fff;
-            padding: 10px;
-            text-align: center;
-        }
-        h1 {
-            margin: 0;
-        }
-        section {
-            max-width: 800px;
-            margin: 20px auto;
-            padding: 20px;
-            background-color:white;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-            border-radius: 10px;
-            overflow: hidden;
-        }
-        footer {
-            background-color: #333;
-            color: #fff;
-            text-align: center;
-            padding: 10px;
-            position: fixed;
-            width: 100%;
-            bottom: 0;
-        }
-    </style>
-
-<head>
- <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Daily Instrument Practice Tracker</title>
-    <style>
-        body {
-            background-image: url({{site.baseurl}}/images/celloplaying.gif);;
+            background-image: url({{site.baseurl}}/images/celloplaying.gif);
             background-size: contain;
             background-repeat: no-repeat;
             background-attachment: fixed;
             font-family: 'Segoe UI', sans-serif;
+            margin: 0;
+            padding: 20px;
         }
         .container {
             text-align: center;
@@ -62,12 +24,11 @@
         h1 {
             color: #333;
         }
-        #study-time {
-            font-size: 24px;
-            padding: 10px;
+        input[type="text"],
+        input[type="number"] {
             width: 100%;
-            border: none;
-            text-align: center;
+            padding: 10px;
+            margin-bottom: 10px;
         }
         #save-button {
             background-color: #8257B4;
@@ -76,7 +37,6 @@
             padding: 10px 20px;
             cursor: pointer;
         }
-        /* Style for the weekly instrument practice log */
         #weekly-log {
             text-align: left;
             margin-top: 20px;
@@ -101,182 +61,89 @@
             width: 100%;
             padding: 10px;
         }
-</style>
+    </style>
 </head>
+<body>
     <div class="container">
         <h1>Name</h1>
-        <input type="text" id="name" placeholder="Enter first name" required>
-        <h1>Date of Birth </h1>
-        <input type="text" id="dob" placeholder="MM/DD/YYYY" required>
-        <h1>Instrument</h1>
-        <input type="text" id="instrument" placeholder="Enter instrument name" required>
-        <h1>Number of Minutes Practiced</h1>
-        <input type="number" id="practice-time" placeholder="Enter practice time (minutes)" required>
+        <input type="text" id="name" placeholder="Enter your name" required>
+        <h1>Food</h1>
+        <input type="text" id="food" placeholder="Enter Food Name" required>
+        <h1>Calorie Intake</h1>
+        <input type="number" id="calories" placeholder="Enter # of Calories Gained" required>
+        <h1>Exercise</h1>
+        <input type="text" id="exercise" placeholder="Enter Name of Exercise" required>
+        <h1>Calories Burned</h1>
+        <input type="number" id="calories-burned" placeholder="Enter # of Calories Burned" required>
         <br><br>
-        <button id="save-button">Create User</button>
-        <!-- Weekly Practice Log Display -->
-        <div id="weekly-log">
-            <h2>Weekly Practice Log</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Date of Birth </th>
-                        <th>Date</th>
-                        <th>Instrument</th>
-                        <th>Practice Time (minutes)</th>                    
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Study log entries will be displayed here -->
-                </tbody>
-            </table>
+        <button id="save-button">Log Entry</button>
+        <!-- Weekly Planner Display -->
+        <div id="weekly-planner">
+            <h2>Planner</h2>
+            <div id="weekly-log">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Food</th>
+                            <th>Calorie intake</th>
+                            <th>Exercise</th>
+                            <th>Calories Burned</th>
+                        </tr>
+                    </thead>
+                    <tbody id="log-body">
+                        <!-- Log entries will be displayed here -->
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
-    <!-- Relevant Links -->
-<div style="text-align: center; margin-top: 20px;">
-    <a href="https://pianopower.org/16-benefits-of-playing-an-instrument/" target="_blank" style="color: purple;">Benefits of Practicing</a> |
-    <a href="https://www.betterup.com/blog/15-ways-to-improve-your-focus-and-concentration-skills" target="_blank" style="color: purple;">How to Increase Concentration</a>
-</div>
     <script>
-         const url = "http://127.0.0.1:8240/api/users/"   
-        // JavaScript to save practice time to local storage
-            document.getElementById("save-button").addEventListener("click", async function () {
-            //alert('Saving function');
-            const practiceTime = document.getElementById("practice-time").value;
+        // JavaScript to save log entries to local storage and display weekly log
+        document.getElementById("save-button").addEventListener("click", function () {
             const name = document.getElementById("name").value;
-            const dob = document.getElementById("dob").value;
-            const instrument = document.getElementById("instrument").value;
+            const food = document.getElementById("food").value;
+            const calories = document.getElementById("calories").value;
+            const exercise = document.getElementById("exercise").value;
+            const caloriesBurned = document.getElementById("calories-burned").value;
             const currentDate = new Date().toLocaleDateString();
-            if (practiceTime !== "" && name !== "" && instrument !== "") {
-                const practiceData = JSON.parse(localStorage.getItem(name)) || {};
-                practiceData[currentDate] = {
-                    dob: dob,
-                    instrument: instrument,
-                    time: parseInt(practiceTime),
+            if (name !== "" && food !== "" && calories !== "" && exercise !== "" && caloriesBurned !== "") {
+                const entry = {
+                    name: name,
+                    food: food,
+                    calories: calories,
+                    exercise: exercise,
+                    caloriesBurned: caloriesBurned
                 };
-                localStorage.setItem(name, JSON.stringify(practiceData));
-                //alert(`Practice time (${practiceTime} minutes) saved for ${currentDate}.`);
-                if (parseInt(practiceTime) < 15) {
-                    alert("Try to practice more tomorrow!");
-                } else {
-                    alert("Great job, keep it up!");
-                }
-                 // Create a JSON object for tracking data
-                    var tracking_string = { 
-                     "userName": name, 
-                     "instrumentName": instrument,
-                     "practiceDate": currentDate,
-                     "practiceTime": practiceTime
-                    };
-                    let randm=Math.floor(Math.random() * 100) + 1;
-                    let txtuid = name+ randm.toString();
-                    //alert(txtuid);
-                var data2 = {  //the other data that needs to be sent
-                     "id": "3",
-                     "name": name,
-                     "uid": txtuid,  
-                     "dob": dob,
-                     "age": "16",
-                     "tracking": tracking_string //tracking string
-                };
-                //alert(dob);
-                 // Convert the JSON object to a string
-               var jsonData = JSON.stringify(data2); //make data2 a string 
-  // Call the API with the JSON payload
-                try { //try and catch
-                   // alert ('Calling the createUser Function');
-                     await postToAPI(jsonData);
-                   // await createUser(name, dob, instrument, currentDate, practiceTime);
-                }
-                catch (e) {
-                    console.log(e) //log error
-                }
-                displayWeeklyLog(); //run function
+                const weeklyLog = JSON.parse(localStorage.getItem("weeklyLog")) || [];
+                weeklyLog.push(entry);
+                localStorage.setItem("weeklyLog", JSON.stringify(weeklyLog));
+                // Clear input fields
+                document.getElementById("name").value = "";
+                document.getElementById("food").value = "";
+                document.getElementById("calories").value = "";
+                document.getElementById("exercise").value = "";
+                document.getElementById("calories-burned").value = "";
+                displayWeeklyLog();
+                alert("Entry logged successfully!");
             } else {
-                alert("Please enter a valid practice time, name, and instrument.");
+                alert("Please fill in all fields.");
             }
         });
-        // Function to display the weekly practice log
-        //The fetch function is used to make an HTTP GET request to the URL 'https://bella-flask-portfolio.stu.nighthawkcodingsociety.com/api/users'. This is typically how you request data from a remote server using JavaScript.
-        //The .then method is used to handle the response from the API request. It is a part of JavaScript's Promise-based architecture, which allows asynchronous operations to be handled in a more structured manner.
-        //Inside the first .then block, the response from the API is converted to JSON format using response.json(). This is assuming that the response from the server is in JSON format.
-        //The code then proceeds to update the content of the web page. It first retrieves a DOM element with the ID 'api-response' and a table body element inside a table with the ID 'weekly-log'. These elements are going to be used to display the data retrieved from the API.
-function displayWeeklyLog() {
-    fetch(url) // Replace 'url' with the actual API endpoint
-        .then(response => response.json())
-        .then(data => {
-            const tableBody = document.querySelector("#weekly-log table tbody");
-            tableBody.innerHTML = ""; // Clear the existing table data
-            data.forEach(user => {
-                if (Array.isArray(user.tracking)) {
-                    user.tracking.forEach(trackingItem => {
-                        const tracking = parseTracking(trackingItem);
-                        const row = tableBody.insertRow();
-                        const nameCell = row.insertCell(0);
-                        const dobCell = row.insertCell(1);
-                        const practicedateCell = row.insertCell(2);
-                        const instrumentCell = row.insertCell(3);
-                        const practicetimeCell = row.insertCell(4);
-                        nameCell.textContent = user.name;
-                        dobCell.textContent = user.dob;
-                        practicedateCell.textContent = tracking.practiceDate;
-                        instrumentCell.textContent = tracking.instrumentName;
-                        practicetimeCell.textContent = tracking.practiceTime;
-                    });
-                }
+        function displayWeeklyLog() {
+            const weeklyLog = JSON.parse(localStorage.getItem("weeklyLog")) || [];
+            const tableBody = document.getElementById("log-body");
+            tableBody.innerHTML = ""; // Clear previous entries
+            weeklyLog.forEach(entry => {
+                const row = tableBody.insertRow();
+                row.insertCell().textContent = entry.name;
+                row.insertCell().textContent = entry.food;
+                row.insertCell().textContent = entry.calories;
+                row.insertCell().textContent = entry.exercise;
+                row.insertCell().textContent = entry.caloriesBurned;
             });
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            alert(error);
-        });
-}
-function parseTracking(tracking) {
-    try {
-        return JSON.parse(tracking);
-    } catch (e) {
-        return tracking;
-    }
-}
-        displayWeeklyLog();
-        // syntactic sugar approach!  is syntax within a programming language that is designed to make things easier to read or to express. It makes the language "sweeter" for human use: things can be expressed more clearly, more concisely, or in an alternative style that some may prefer.
-        async function postToAPI(jsonData) {
-            //alert(JSON.stringify(jsonData));
-            //alert("Calling postToAPI");
-            //alert(url);
-            fetch(url, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: jsonData
-            })
-            .then(response => {
-                if (response.ok) {
-                    // Handle success
-                    alert("Practice data has been added successfully");
-                    console.log("Data sent successfully!");
-                     document.getElementById("name").value = "";
-                     document.getElementById("dob").value = "";
-                     document.getElementById("practice-time").value = "";
-                     document.getElementById("instrument").value = "";
-                     displayWeeklyLog();
-                } else {
-                    // Handle errors
-                    console.error("Failed to send data to the API.");
-                    alert("Failed");
-                     throw Error(`Error: ${response?.error?.data}`) ; //there's no guarantee respsonse data
-                }
-            })
-           // .catch(error => {
-                // Handle network errors
-           //     console.error("Network error:", error);
-           //     alert(error);
-           // });
-            //alert("end of postToAPI");
         }
-
- </script>
-
-    
+        displayWeeklyLog();
+    </script>
+</body>
+</html>
