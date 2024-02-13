@@ -50,32 +50,39 @@ title: Meet the Team
 
 <br>
 
-<h2> Lakshanya Sankaran </h2>
+<h2> Nupur Bhalla </h2>
 
-- Lakshanya is the Scrum Master and Frontend Developer
+- Nupur is the backend developer 
 <br>
-- She has played the flute for 10 years
-
-<br>
-
-<h2> Eunseo Lim </h2>
-
-- Eun is a Frontend Developer
-<br>
-- She has played the piano and violin for 10 years
+- She has played tennis for 10 years 
 
 <br>
 
-<h2> Isabel Marilla </h2>
+<h2> Aditi Bharadwaj </h2>
 
-- Bella is a Backend Developer and DevOps
+- Aditi is frontend and backend 
 <br>
-- She has played the piano for 5 years
+- She has played tennis for a while 
+
+<br>
+
+<h2> Cindy Liang </h2>
+
+- Cindy is backend and devOps
+<br>
+- She has played ping pong 
 
 <br>
 
 <h2> Avanthika Daita </h2>
 
-- Avanthika is a Backend Developer
+- Avanthika is a Frontend Developer
 <br>
-- She has played the guitar for 4 years
+- She has played lacrosse for 12 years 
+
+<h2> Eshika Pallapottu </h2>
+
+- Eshika is scrum master and devOps
+
+<br>
+- She has played basketball for 3 years 
