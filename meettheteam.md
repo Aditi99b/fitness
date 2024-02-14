@@ -82,7 +82,7 @@ title: Meet the Team
 
 <h2> Eshika Pallapottu </h2>
 
-- Eshika is scrum master and devOps
+- Eshika is scrum master, devOps, and backend
 
 <br>
 - She has played basketball for 3 years 
